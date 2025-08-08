@@ -16,12 +16,15 @@ const Home = async () => {
     <div>
       <Header />
 
-      <div className="px-5 space-y-6">
-        <Image src="/banner-01.png" alt="Leve uma vida com estilo" width={0} height={0} sizes="100vw" className="w-full h-auto" />
+      <div className="space-y-6">
+        <div className="px-5">
+          <Image src="/banner-01.png" alt="Leve uma vida com estilo" width={0} height={0} sizes="100vw" className="w-full h-auto" />
+        </div>
 
         <ProductsList title="Mais vendidos" products={products} />
-
-        <Image src="/banner-02.png" alt="Autentico" width={0} height={0} sizes="100vw" className="w-full h-auto" />
+        <div className="px-5">
+          <Image src="/banner-02.png" alt="Autentico" width={0} height={0} sizes="100vw" className="w-full h-auto" />
+        </div>
       </div>
     </div>
   );
