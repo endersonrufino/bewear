@@ -53,7 +53,7 @@ export default function SignUpForm() {
                 },
                 onError: (error) => {
                     if (error.error.code === "USER_ALREADY_EXISTS") {
-                        form.setError("email", {
+                        return form.setError("email", {
                             message: "E-mail já cadastrado."
                         })
                     }
