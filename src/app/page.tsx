@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import CategorySelector from "@/components/commom/category-selector";
 import Header from "@/components/commom/header";
 import ProductsList from "@/components/commom/product-list";
 import { db } from "@/db";
@@ -12,6 +13,8 @@ const Home = async () => {
     },
   });
 
+  const categories = await db.query.categoryTable.findMany({})
+
   return (
     <div>
       <Header />
@@ -22,6 +25,10 @@ const Home = async () => {
         </div>
 
         <ProductsList title="Mais vendidos" products={products} />
+        <div className="px-5">
+          <CategorySelector categories={categories} />
+        </div>
+
         <div className="px-5">
           <Image src="/banner-02.png" alt="Autentico" width={0} height={0} sizes="100vw" className="w-full h-auto" />
         </div>
