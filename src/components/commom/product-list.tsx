@@ -12,9 +12,6 @@ interface ProductListProps {
 }
 
 export default function ProductsList({ title, products }: ProductListProps) {
-    console.log("lista de produtos")
-
-    console.log(products)
     return (
         <div className="space-y-6">
             <h3 className="font-semibold px-5">{title}</h3>

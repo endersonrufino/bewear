@@ -13,8 +13,6 @@ interface ProductListItemProps {
 export default function ProductListItem({ product }: ProductListItemProps) {
     const firstVariant = product.variants[0];
 
-    console.log(firstVariant)
-
     return (
         <Link href="/" className="flex flex-col gap-4">
             <Image src={firstVariant.imageUrl} alt={firstVariant.name} width={200} height={200} className="rounded-3xl" />
