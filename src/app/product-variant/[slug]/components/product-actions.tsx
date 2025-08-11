@@ -25,7 +25,7 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
         <>
             <div className="px-5">
                 <div className="space-y-4">
-                    <h3 className="font-medium">Qantidade</h3>
+                    <h3 className="font-medium">Quantidade</h3>
                     <div className="flex w-[100px] items-center justify-between rounded-xl border ">
                         <Button size="icon" variant="ghost" className="cursor-pointer" onClick={handleDecrement}>
                             <MinusIcon />
