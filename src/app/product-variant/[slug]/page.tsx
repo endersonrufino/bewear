@@ -2,15 +2,15 @@ import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import QuantitySelector from "@/app/category/[slug]/components/quantity-selector";
-import VariantsSelector from "@/app/category/[slug]/components/variants-selector";
+import VariantsSelector from "@/app/product-variant/[slug]/components/variants-selector";
 import Footer from "@/components/commom/footer";
 import Header from "@/components/commom/header";
 import ProductsList from "@/components/commom/product-list";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBrl } from "@/helpers/money";
+
+import ProductActions from "./components/product-actions";
 
 interface ProductVariantPageProps {
     params: Promise<{ slug: string }>
@@ -62,13 +62,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
                     <h3 className="text-muted-foreground text-sm">{productVariant.name}</h3>
                     <h3 className="text-lg font-semibold">{formatCentsToBrl(productVariant.priceInCents)}</h3>
                 </div>
-                <div className="px-5">
-                    <QuantitySelector />
-                </div>
-                <div className="flex flex-col space-y-4 px-5">
-                    <Button className="rounded-full" size={"lg"} variant={"outline"}>Adicionar a sacola</Button>
-                    <Button className="rounded-full" size={"lg"}>Comprar agora</Button>
-                </div>
+                <ProductActions productVariantId={productVariant.id} />
                 <div className="px-5">
                     <p className="text-sm">{productVariant.product.description}</p>
                 </div>
