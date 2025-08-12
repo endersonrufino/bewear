@@ -29,7 +29,7 @@ export const removeProductFromCart = async (
       cart: true,
     },
   });
-  
+
   const cartDoesNotBelongToUser = cartItem?.cart.userId !== session.user.id;
 
   if (cartDoesNotBelongToUser) {
@@ -41,5 +41,4 @@ export const removeProductFromCart = async (
   }
 
   await db.delete(cartItemTable).where(eq(cartItemTable.id, cartItem.id));
-  return;
 };
