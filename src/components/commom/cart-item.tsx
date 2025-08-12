@@ -3,6 +3,7 @@ import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
+import { addProductToCart } from "@/actions/add-cart-product";
 import { decreaseCartProductQuantity } from "@/actions/decrease-cart-quantity";
 import { removeProductFromCart } from "@/actions/remove-cart-product";
 import { formatCentsToBrl } from "@/helpers/money";
@@ -12,13 +13,14 @@ import { Button } from "../ui/button";
 interface CartItemProps {
   id: string;
   productName: string;
+  productVariantId: string;
   productVariantName: string;
   imageUrl: string;
   productVariantPriceInCents: number;
   quantity: number;
 }
 
-const CartItem = ({ id, productName, productVariantName, imageUrl, productVariantPriceInCents, quantity }: CartItemProps) => {
+const CartItem = ({ id, productName, productVariantId, productVariantName, imageUrl, productVariantPriceInCents, quantity }: CartItemProps) => {
 
   const queryClient = useQueryClient()
 
@@ -38,6 +40,14 @@ const CartItem = ({ id, productName, productVariantName, imageUrl, productVarian
     }
   })
 
+  const increaseCartProductQuantityMutation = useMutation({
+    mutationKey: ['increase-cart-product-quantity'],
+    mutationFn: () => addProductToCart({ productVariantId: productVariantId, quantity: 1 }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+    }
+  })
+
   const handleDeleteClick = () => {
     removeProductFromCartMutation.mutate(undefined, {
       onSuccess: () => {
@@ -51,6 +61,10 @@ const CartItem = ({ id, productName, productVariantName, imageUrl, productVarian
 
   const handleDecreaseCartProductQuantity = () => {
     decreaseCartProductQuantityMutation.mutate()
+  }
+
+  const handleIncreaseCartProductQuantity = () => {
+    increaseCartProductQuantityMutation.mutate()
   }
 
   return (
@@ -73,7 +87,7 @@ const CartItem = ({ id, productName, productVariantName, imageUrl, productVarian
               <MinusIcon />
             </Button>
             <p className="text-xs font-medium">{quantity}</p>
-            <Button className="h-4 w-4" variant="ghost" onClick={() => { }}>
+            <Button className="h-4 w-4" variant="ghost" onClick={handleIncreaseCartProductQuantity}>
               <PlusIcon />
             </Button>
           </div>
