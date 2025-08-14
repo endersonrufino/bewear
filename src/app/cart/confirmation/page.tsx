@@ -4,14 +4,16 @@ import { redirect } from "next/navigation";
 
 import Footer from "@/components/commom/footer";
 import Header from "@/components/commom/header";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/summary";
-import Addresses from "./components/addresses";
+import { formatAddress } from "../helpers/address";
 
-const IdentificationPage = async () => {
+const ConfirmationPage = async () => {
     const session = await auth.api.getSession({
         headers: await headers()
     });
@@ -48,11 +50,26 @@ const IdentificationPage = async () => {
         (acc, item) => acc + item.producVariant.priceInCents * item.quantity, 0,
     )
 
+    if (!cart.shippingAddress) {
+        redirect("/cart/identification")
+    }
     return (
         <div>
             <Header />
-            <div className="px-5 space-y-4">
-                <Addresses shippingAddresses={shippingAddresses} defaultShippingAddressId={cart?.shippingAddress?.id || null} />
+            <div className="space-y-4 px-5">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Identificação</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <Card>
+                            <CardContent>
+                                <p className="text-sm">{formatAddress(cart.shippingAddress)}</p>
+                            </CardContent>
+                        </Card>
+                        <Button className="w-full rounded-full" size="lg">Finalizar compra</Button>
+                    </CardContent>
+                </Card>
                 <CartSummary
                     subTotalInCents={cartTotalInCents}
                     totalInCents={cartTotalInCents}
@@ -66,9 +83,11 @@ const IdentificationPage = async () => {
                     }))}
                 />
             </div>
-            <Footer />
+            <div className="mt-12">
+                <Footer />
+            </div>
         </div>
     )
 }
 
-export default IdentificationPage;
+export default ConfirmationPage;
