@@ -33,11 +33,11 @@ const Cart = () => {
                                     <CartItem
                                         key={item.id}
                                         id={item.id}
-                                        productVariantId={item.producVariant.id}
-                                        productName={item.producVariant.product.name}
-                                        productVariantName={item.producVariant.name}
-                                        imageUrl={item.producVariant.imageUrl}
-                                        productVariantPriceInCents={item.producVariant.priceInCents}
+                                        productVariantId={item.productVariant.id}
+                                        productName={item.productVariant.product.name}
+                                        productVariantName={item.productVariant.name}
+                                        imageUrl={item.productVariant.imageUrl}
+                                        productVariantPriceInCents={item.productVariant.priceInCents}
                                         quantity={item.quantity}
                                     />
                                 ))}

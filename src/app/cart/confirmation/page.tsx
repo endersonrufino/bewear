@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 import Footer from "@/components/commom/footer";
 import Header from "@/components/commom/header";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
@@ -12,6 +11,7 @@ import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/summary";
 import { formatAddress } from "../helpers/address";
+import FinishOrderButton from "./components/finish-order-button";
 
 const ConfirmationPage = async () => {
     const session = await auth.api.getSession({
@@ -28,7 +28,7 @@ const ConfirmationPage = async () => {
             shippingAddress: true,
             items: {
                 with: {
-                    producVariant: {
+                    productVariant: {
                         with: {
                             product: true,
                         },
@@ -47,7 +47,7 @@ const ConfirmationPage = async () => {
     })
 
     const cartTotalInCents = cart.items.reduce(
-        (acc, item) => acc + item.producVariant.priceInCents * item.quantity, 0,
+        (acc, item) => acc + item.productVariant.priceInCents * item.quantity, 0,
     )
 
     if (!cart.shippingAddress) {
@@ -67,19 +67,19 @@ const ConfirmationPage = async () => {
                                 <p className="text-sm">{formatAddress(cart.shippingAddress)}</p>
                             </CardContent>
                         </Card>
-                        <Button className="w-full rounded-full" size="lg">Finalizar compra</Button>
+                        <FinishOrderButton />
                     </CardContent>
                 </Card>
                 <CartSummary
                     subTotalInCents={cartTotalInCents}
                     totalInCents={cartTotalInCents}
                     products={cart.items.map((item) => ({
-                        id: item.producVariant.id,
-                        name: item.producVariant.product.name,
-                        variantName: item.producVariant.name,
+                        id: item.productVariant.id,
+                        name: item.productVariant.product.name,
+                        variantName: item.productVariant.name,
                         quantity: item.quantity,
-                        priceInCents: item.producVariant.priceInCents,
-                        imageUrl: item.producVariant.imageUrl
+                        priceInCents: item.productVariant.priceInCents,
+                        imageUrl: item.productVariant.imageUrl
                     }))}
                 />
             </div>
