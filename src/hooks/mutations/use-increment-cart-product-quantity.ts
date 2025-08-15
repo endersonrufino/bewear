@@ -14,7 +14,7 @@ export const useIncreaseCartProductQuantity = (productVariantId: string) => {
     mutationKey: getUseIncreaseCartProductQuantityMutationKey(productVariantId),
     mutationFn: () => addProductToCart({ productVariantId, quantity: 1 }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: getUseCartQueryKey });
+      queryClient.invalidateQueries({ queryKey: getUseCartQueryKey() });
     },
   });
 };
