@@ -9,3 +9,13 @@ services:
       - "5432:5432"
     volumes:
       - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+  
+  stripe-cli:
+    image: stripe/stripe-cli:latest
+    entrypoint: sh
+    tty: true
+    stdin_open: true
+    environment:
+      STRIPE_API_KEY: ${STRIPE_SECRET_KEY} # define no .env
+    volumes:
+      - ./stripe:/root/.stripe # opcional: persiste configs/keys
